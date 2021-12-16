@@ -1,0 +1,146 @@
+.friend_list {
+  width: 100%;
+  border: 3px solid #c2c2c2;
+  background-color: white;
+  height: 300px;
+  border-radius: 10px;
+  margin-top: 5px;
+  padding: 0.5rem 15px;
+  overflow: auto;
+  margin-bottom: 30px;
+}
+
+.friend_list::-webkit-scrollbar {
+  width: 12px;
+}
+
+.friend_list::-webkit-scrollbar-thumb {
+  background-color: transparent;
+  border-radius: 12px;
+  background-clip: padding-box;
+  border: 3px solid transparent;
+}
+
+.friend_list:hover::-webkit-scrollbar-thumb {
+  background-color: lightgray;
+}
+
+.friend_list::-webkit-scrollbar-track {
+  border-radius: 12px;
+}
+
+.friend_list ul {
+  border-bottom: 2px solid #c2c2c2;
+}
+
+.friend_list .groups::before {
+  content: "그룹";
+  display: block;
+  font-weight: 600;
+  padding: 5px 0 10px;
+  font-size: 1rem;
+  border-bottom: 2px solid #c2c2c2;
+}
+
+.friend_list .friends::before {
+  content: "친구";
+  display: block;
+  font-weight: 600;
+  padding: 10px 0 10px;
+  font-size: 1rem;
+  border-bottom: 2px solid #c2c2c2;
+}
+
+.friend_list ul li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 10px 0;
+}
+
+.friend_list ul li img {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 1.5rem;
+}
+
+.combi_calculator {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.combi_calculator .choice {
+  margin: 0 auto;
+  margin-bottom: 30px;
+}
+
+.combi_calculator fieldset .title {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin: 10px 0;
+  margin-right: 5px;
+  font-weight: 700;
+  font-size: 1.05rem;
+}
+
+.combi_calculator .organize input[type="number"] {
+  width: 40px;
+}
+
+.combi_calculator .title .question {
+  font-size: 10px;
+  width: 12px;
+  height: 12px;
+  border-radius: 6px;
+  background-color: #c2c2c2;
+  color: white;
+  text-align: center;
+  line-height: 12px;
+  vertical-align: middle;
+  cursor: pointer;
+}
+
+.combi_calculator .title .question .explanation {
+  display: none;
+  position: absolute;
+  width: 100px;
+  height: 50px;
+  background-color: white;
+  border: 1px solid #c2c2c2;
+  border-radius: 10px;
+  color: black;
+  padding: 3px;
+  font-size: 0.8rem;
+}
+
+.combi_calculator .title .question:hover .explanation {
+  display: block;
+}
+
+.combi_calculator .organize {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.combi_calculator .calculator_btn {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.combi_calculator .calculator_btn button {
+  width: 90px;
+  height: 35px;
+  border-radius: 10px;
+  background-color: #7cabe9;
+  margin: 0 10px;
+  font-size: 1rem;
+  color: white;
+  font-weight: 600;
+}
+
+@media screen and (max-width: 768px) {
+}

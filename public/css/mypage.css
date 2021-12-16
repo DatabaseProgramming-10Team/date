@@ -1,0 +1,150 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  background-attachment: scroll;
+}
+
+.profile {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.profile > img {
+  width: 60px;
+  border-radius: 30px;
+  border: 3px solid #aecefd;
+}
+
+.box {
+  width: 440px;
+  height: 440px;
+  padding: 10px 10px;
+  background-color: #ffffff;
+  border: 2px solid #aecefd;
+  border-radius: 10px 10px 10px 10px;
+  margin: 0 auto;
+  margin-top: 60px;
+  margin-bottom: 60px;
+}
+
+table {
+  margin: 0 auto;
+  margin-top: 50px;
+}
+
+table,
+td,
+th {
+  border-collapse: collapse;
+  margin-bottom: 10px;
+}
+
+.name {
+  font-size: 1rem;
+  color: black;
+}
+
+.chk {
+  font-size: x-small;
+  color: black;
+  float: left;
+}
+
+.pwchk {
+  border: 2px solid #aecefd;
+  width: 240px;
+  height: 25px;
+  border-radius: 5px;
+}
+
+/* 버튼 */
+.btn {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 40px;
+}
+
+.button {
+  width: 20%;
+  height: 30px;
+  font-family: "Roboto", sans-serif;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  font-weight: 500;
+  color: #000;
+  background-color: #aecefd;
+  border: none;
+  border-radius: 45px;
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  outline: none;
+}
+
+.button:hover {
+  background-color: #aecefd;
+  /* color: white; */
+  transform: translateY(-7px);
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+button {
+  border: none;
+  cursor: pointer;
+}
+
+ul,
+ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.background_black {
+  display: none;
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  background-color: black;
+  opacity: 0.3;
+  z-index: 1;
+}
+
+/* 반응형 */
+@media screen and (max-width: 768px) {
+  header {
+    right: -230px;
+  }
+
+  header .logo {
+    display: none;
+  }
+
+  section {
+    padding-left: 0;
+  }
+  section .content {
+    padding-top: 45px;
+  }
+
+  section .mobile_header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}

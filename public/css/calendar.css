@@ -1,0 +1,353 @@
+.plus_btn {
+  background: url(../images/plus.png);
+  width: 20px;
+  height: 20px;
+  background-size: 20px 20px;
+  line-height: 1.1rem;
+  vertical-align: middle;
+}
+
+.color1 {
+  background-color: #f8a5a5;
+}
+.color2 {
+  background-color: #ffc947;
+}
+.color3 {
+  background-color: #8be2a0;
+}
+.color4 {
+  background-color: #a4a9eb;
+}
+
+/* CALENDAR */
+.calendar {
+  width: 100%;
+  min-width: 300px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.calendar .title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.calendar .title .ym {
+  width: 70px;
+  font-weight: 700;
+}
+
+.calendar .title .month {
+  font-size: 3rem;
+  height: 46px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.calendar .title .year {
+  font-size: 1rem;
+}
+.calendar .title .monthtxt {
+  font-size: 0.8rem;
+}
+
+.calendar .main {
+  background-color: darkblue;
+  padding: 2px;
+}
+
+.calendar .main .days {
+  display: flex;
+  justify-content: space-between;
+  text-align: center;
+  gap: 2px;
+}
+
+.calendar .main .days .day {
+  width: calc(100% / 7);
+  background-color: #7cabe9;
+  color: white;
+  line-height: 30px;
+  vertical-align: middle;
+  font-weight: 900;
+}
+
+.calendar .main .dates {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  margin-top: 2px;
+  grid-column-gap: 2px;
+  grid-row-gap: 2px;
+}
+
+.calendar .main .dates .date {
+  width: 100%;
+  padding: 6px;
+  padding-bottom: 55%;
+  background-color: white;
+  position: relative;
+}
+
+.calendar .main .dates .date .other {
+  opacity: 0.4;
+}
+
+#clickDate {
+  background-color: #ff7373;
+}
+
+.calendar .main .days .day:nth-child(7n + 1),
+.calendar .main .dates .date:nth-child(7n + 1) {
+  color: red;
+}
+.calendar .main .days .day:nth-child(7n),
+.calendar .main .dates .date:nth-child(7n) {
+  color: blue;
+}
+
+/* DIARY */
+.diary {
+  width: 100%;
+  max-width: 850px;
+  margin: 20px auto 0;
+}
+
+.diary .today {
+  display: inline-block;
+  font-size: 1.1rem;
+  line-height: 1.1rem;
+  vertical-align: middle;
+  font-weight: 600;
+  padding: 5px 0 5px 10px;
+}
+
+.diary .schedules {
+  width: 100%;
+  border: 3px solid #7cabe9;
+  background-color: white;
+  height: 180px;
+  border-radius: 10px;
+  margin-top: 5px;
+  padding: 0.5rem 15px;
+  overflow: auto;
+}
+
+.diary .schedules::-webkit-scrollbar {
+  width: 12px;
+}
+
+.diary .schedules::-webkit-scrollbar-thumb {
+  background-color: transparent;
+  border-radius: 12px;
+  background-clip: padding-box;
+  border: 3px solid transparent;
+}
+
+.diary .schedules:hover::-webkit-scrollbar-thumb {
+  background-color: lightgray;
+}
+
+.diary .schedules::-webkit-scrollbar-track {
+  border-radius: 12px;
+}
+
+.diary .schedules .schedule {
+  display: flex;
+  align-items: center;
+  height: 30px;
+}
+
+.diary .schedules .schedule .schedule_edit {
+  background-image: url("../images/edit.png");
+  width: 20px;
+  height: 20px;
+  background-size: 20px 20px;
+}
+
+.diary .schedules .schedule .schedule_delete {
+  background-image: url("../images/minus.png");
+  width: 20px;
+  height: 20px;
+  background-size: 20px 20px;
+}
+
+.diary .schedules .schedule .schedule_edit,
+.diary .schedules .schedule .schedule_delete {
+  cursor: pointer;
+  margin-left: 5px;
+  flex-shrink: 0;
+  display: none;
+}
+
+.diary .schedules .schedule:hover .schedule_edit,
+.diary .schedules .schedule:hover .schedule_delete {
+  display: block;
+}
+
+.diary .schedules .schedule .schedule_color {
+  width: 10px;
+  height: 10px;
+  border-radius: 5px;
+  flex-shrink: 0;
+}
+.diary .schedules .schedule .schedule_time {
+  font-size: 0.9rem;
+  color: lightgray;
+  padding-left: 10px;
+  flex-shrink: 0;
+}
+.diary .schedules .schedule .schedule_info {
+  flex-grow: 1;
+  padding-left: 10px;
+  font-size: 1rem;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.diary .schedules .schedule_underline {
+  height: 1px;
+  width: 100%;
+  background-color: #7cabe9;
+  margin: 0.5rem 0;
+}
+
+/* POPUP_ADD_DATE */
+.popup_add_date {
+  position: fixed;
+  /* top: 20%;
+  left: calc(width / 2);*/
+  width: 70%;
+  height: 60%;
+  margin: auto;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 320px;
+  display: none;
+  z-index: 2;
+  max-width: 600px;
+}
+
+.popup_add_date h4 {
+  display: block;
+  width: 100%;
+  font-size: 1.5rem;
+  margin-top: 20px;
+  text-align: center;
+}
+
+.popup_add_date h4::after {
+  content: "";
+  display: block;
+  width: 80%;
+  height: 2px;
+  border-radius: 1px;
+  background-color: #7cabe9;
+  margin: 10px auto;
+}
+
+.popup_add_date .add_date {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  flex-grow: 1;
+  height: 70%;
+}
+
+.popup_add_date .color_box {
+  border: 2px solid #7cabe9;
+  width: 120px;
+  height: 40px;
+  margin-right: 10px;
+  padding: 5px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.popup_add_date .color_box input[type="radio"] {
+  display: none;
+}
+
+.popup_add_date .color_box input[type="radio"] + label {
+  display: inline-block;
+  width: 1.3rem;
+  height: 1.3rem;
+  border-radius: 0.65rem;
+}
+
+.popup_add_date .color_box input[type="radio"]:checked + label {
+  border: 1px solid #a20000;
+}
+
+.popup_add_date .name {
+  display: flex;
+}
+
+.popup_add_date .name input[type="text"] {
+  font-size: 1.1rem;
+  width: 170px;
+}
+
+.popup_add_date .day input[type="checkbox"] {
+  display: none;
+}
+
+.popup_add_date .day input[type="checkbox"] + label {
+  display: inline-block;
+  width: 1.8rem;
+  height: 1.8rem;
+  background-color: lightgray;
+  border-radius: 5px;
+  line-height: 1.8rem;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.popup_add_date .day input[type="checkbox"]:checked + label {
+  background-color: #f38a63;
+}
+
+.popup_add_date .add_date_btn {
+  margin: 20px auto 30px;
+}
+
+.popup_add_date .add_date_btn button {
+  width: 70px;
+  height: 35px;
+  border-radius: 10px;
+  background-color: #7cabe9;
+  margin: 0 10px;
+  font-size: 1rem;
+  color: white;
+  font-weight: 700;
+}
+
+@media screen and (max-width: 768px) {
+  .diary .schedules .schedule .schedule_edit,
+  .diary .schedules .schedule .schedule_delete {
+    display: block;
+  }
+
+  .diary .schedules::-webkit-scrollbar-thumb {
+    background-color: lightgray;
+  }
+
+  .popup_add_date {
+    top: 20%;
+    left: 0%;
+    width: 100%;
+    height: 60%;
+  }
+}

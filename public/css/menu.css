@@ -1,0 +1,185 @@
+.main_menu {
+  display: none;
+}
+
+/* PC 메뉴바 */
+header {
+  background-color: #7cabe9;
+  position: fixed;
+  width: 230px;
+  height: 100%;
+  padding: 10px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: 0.5s;
+}
+
+/* PC 메뉴바 - logo */
+header .logo {
+  display: flex;
+  justify-content: center;
+  margin: 10px;
+  height: 60px;
+}
+
+header .logo img {
+  width: 60px;
+  height: 60px;
+}
+
+header .logo h1 {
+  align-self: center;
+  color: white;
+  font-size: 24px;
+  font-weight: 700;
+  margin-left: 10px;
+}
+
+/* PC 메뉴바 - profile */
+header .profile {
+  text-align: center;
+  margin-top: 60px;
+}
+
+header .profile > img {
+  width: 60px;
+  border-radius: 30px;
+}
+
+header .profile .name {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+header .profile .name .user_name {
+  font-weight: 700;
+  margin-right: 5px;
+}
+
+header .profile .name .logout {
+  background: url("../images/logout.png") no-repeat center center;
+  background-size: 12px 12px;
+  width: 12px;
+  height: 12px;
+}
+
+/* PC 메뉴바 - header_menu */
+header .header_menu {
+  text-align: center;
+  font-weight: 700;
+  flex-grow: 1;
+  margin-top: 40px;
+}
+
+header .header_menu ul li {
+  margin-top: 30px;
+  font-size: 18px;
+}
+
+/* PC 메뉴바 - copyright */
+header .copyright p {
+  margin-top: 20px;
+  font-size: 10px;
+}
+
+/* 모바일 메뉴바 */
+section .mobile_header {
+  display: none;
+  width: 100%;
+  height: 45px;
+  position: fixed;
+  background-color: #7cabe9;
+}
+
+section .mobile_header .logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+section .mobile_header .logo img {
+  width: 30px;
+  height: 30px;
+}
+
+section .mobile_header .logo h1 {
+  align-self: center;
+  color: white;
+  font-size: 20px;
+  font-weight: 700;
+  margin-left: 10px;
+}
+
+@media screen and (max-width: 768px) {
+  /* 모바일 메뉴 버튼 */
+  .main_menu {
+    display: inline;
+  }
+
+  input[id="menu"] {
+    display: none;
+  }
+
+  input[id="menu"] + label {
+    display: block;
+    width: 25px;
+    height: 20px;
+    position: fixed;
+    cursor: pointer;
+    top: 12px;
+    right: 10px;
+    z-index: 1;
+  }
+
+  input[id="menu"] + label span {
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 3px;
+    border-radius: 30px;
+    background-color: white;
+    transition: all 0.35s;
+  }
+
+  input[id="menu"] + label span:nth-child(1) {
+    top: 0;
+  }
+
+  input[id="menu"] + label span:nth-child(2) {
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  input[id="menu"] + label span:nth-child(3) {
+    bottom: 0;
+  }
+
+  input[id="menu"]:checked ~ .background_black {
+    display: block;
+  }
+  input[id="menu"]:checked ~ label {
+    z-index: 3;
+  }
+
+  input[id="menu"]:checked ~ header {
+    right: 0;
+    z-index: 2;
+  }
+
+  input[id="menu"]:checked + label span:nth-child(1) {
+    top: 50%;
+    transform: translateY(-50%) rotate(45deg);
+  }
+
+  input[id="menu"]:checked + label span:nth-child(2) {
+    opacity: 0;
+  }
+
+  input[id="menu"]:checked + label span:nth-child(3) {
+    bottom: 50%;
+    transform: translateY(50%) rotate(-45deg);
+  }
+}

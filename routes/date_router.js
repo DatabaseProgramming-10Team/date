@@ -6,7 +6,15 @@ const template = require("../lib/template");
 // var url = require("url");
 
 router.get("/", function (request, response) {
-  let html = template.menu("내 일정", template.date(), "", "홍길동");
+  let html = template.menu(
+    "내 일정",
+    template.date(
+      template.datelist([
+        { color: "color1", dateName: "저녁약속", time: "12:00~13:00" },
+      ])
+    ),
+    "홍길동"
+  );
   response.send(html);
 });
 

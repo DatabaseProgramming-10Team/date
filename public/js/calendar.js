@@ -30,6 +30,14 @@ const setDateTime = function (tempDate) {
       : "0" + (parseInt(time) + 1) + ":00";
 };
 
+var setCookie = function (name, value, exp) {
+  var cookieDate = new Date();
+  cookieDate.setTime(cookieDate.getTime() + exp * 24 * 60 * 60 * 1000);
+  document.cookie =
+    name + "=" + value + ";expires=" + cookieDate.toUTCString() + ";path=/";
+};
+setCookie("tempDate", date, 1);
+
 const calendar = function () {
   //년, 월 계산
   const year = date.getFullYear() + "";
@@ -105,6 +113,7 @@ const calendar = function () {
   } else {
     document.querySelectorAll(".this")[0].parentNode.id = "clickDate";
     let tempDate = new Date(Date.UTC(year, month, 1));
+    setCookie("tempDate", tempDate, 1);
     document.querySelector(".today").innerHTML = `1일 (${whatDay(
       tempDate.getDay()
     )})`;
@@ -126,6 +135,7 @@ const calendar = function () {
               event.currentTarget.childNodes[0].innerHTML
             )
           );
+          setCookie("tempDate", tempDate, 1);
         } else if (
           event.currentTarget.childNodes[0].className == "other next"
         ) {
@@ -136,10 +146,12 @@ const calendar = function () {
               event.currentTarget.childNodes[0].innerHTML
             )
           );
+          setCookie("tempDate", tempDate, 1);
         } else {
           tempDate = new Date(
             Date.UTC(year, month, event.currentTarget.childNodes[0].innerHTML)
           );
+          setCookie("tempDate", tempDate, 1);
         }
         document.querySelector(
           ".today"

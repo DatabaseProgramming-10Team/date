@@ -5,7 +5,6 @@ const date_calculator_router = require("./routes/date_calculator_router");
 const port = 80;
 const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({ extended: true }));
-
 app.use("/public", express.static(__dirname + "/public"));
 
 // app.use("/", login);

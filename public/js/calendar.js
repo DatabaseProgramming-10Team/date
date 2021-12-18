@@ -30,13 +30,18 @@ const setDateTime = function (tempDate) {
       : "0" + (parseInt(time) + 1) + ":00";
 };
 
-var setCookie = function (name, value, exp) {
-  var cookieDate = new Date();
-  cookieDate.setTime(cookieDate.getTime() + exp * 24 * 60 * 60 * 1000);
-  document.cookie =
-    name + "=" + value + ";expires=" + cookieDate.toUTCString() + ";path=/";
+var listUpdate = function (value) {
+  //선택한 날짜에 따라 일정 변경
+  let linkDate = value.toISOString().substring(0, 10).split("-").join("");
+  console.log(linkDate);
+  history.pushState(null, null, `/date/${linkDate}`);
+  const ajax = new XMLHttpRequest();
+  ajax.open("GET", `/date/${linkDate}/schedulelist`, false);
+  ajax.send();
+  console.log("ajax임 : " + ajax.response);
+  document.querySelector(".schedules").innerHTML = ajax.response;
 };
-setCookie("tempDate", date, 1);
+listUpdate(tempDate);
 
 const calendar = function () {
   //년, 월 계산
@@ -104,6 +109,7 @@ const calendar = function () {
     for (let d of document.querySelectorAll(".this")) {
       if (+d.innerText === today.getDate()) {
         d.parentNode.id = "clickDate";
+        listUpdate(tempDate);
         document.querySelector(
           ".today"
         ).innerHTML = `${today.getDate()}일 (${whatDay(today.getDay())})`;
@@ -113,7 +119,7 @@ const calendar = function () {
   } else {
     document.querySelectorAll(".this")[0].parentNode.id = "clickDate";
     let tempDate = new Date(Date.UTC(year, month, 1));
-    setCookie("tempDate", tempDate, 1);
+    listUpdate(tempDate);
     document.querySelector(".today").innerHTML = `1일 (${whatDay(
       tempDate.getDay()
     )})`;
@@ -135,7 +141,6 @@ const calendar = function () {
               event.currentTarget.childNodes[0].innerHTML
             )
           );
-          setCookie("tempDate", tempDate, 1);
         } else if (
           event.currentTarget.childNodes[0].className == "other next"
         ) {
@@ -146,13 +151,12 @@ const calendar = function () {
               event.currentTarget.childNodes[0].innerHTML
             )
           );
-          setCookie("tempDate", tempDate, 1);
         } else {
           tempDate = new Date(
             Date.UTC(year, month, event.currentTarget.childNodes[0].innerHTML)
           );
-          setCookie("tempDate", tempDate, 1);
         }
+        listUpdate(tempDate);
         document.querySelector(
           ".today"
         ).innerHTML = `${tempDate.getDate()}일 (${whatDay(tempDate.getDay())})`;
@@ -220,4 +224,22 @@ check.addEventListener("click", (e) => {
       element.disabled = false;
     });
   }
+});
+
+//일정 수정
+let popup_update_dateEl = document.querySelector(".update");
+background_blackEl.addEventListener("click", function () {
+  popup_update_dateEl.style.display = "none";
+  background_blackEl.style.display = "none";
+  document.querySelector(".main_menu").checked = false;
+});
+
+document.querySelector(".cancel_update").addEventListener("click", function () {
+  popup_update_dateEl.style.display = "none";
+  background_blackEl.style.display = "none";
+});
+
+document.querySelector(".schedule_edit").addEventListener("click", function () {
+  popup_update_dateEl.style.display = "flex";
+  background_blackEl.style.display = "block";
 });

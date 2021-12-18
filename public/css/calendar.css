@@ -166,6 +166,8 @@
   width: 20px;
   height: 20px;
   background-size: 20px 20px;
+  border: none;
+  background-color: transparent;
 }
 
 .diary .schedules .schedule .schedule_delete {
@@ -237,6 +239,10 @@
   display: none;
   z-index: 2;
   max-width: 600px;
+}
+
+.update {
+  display: none;
 }
 
 .popup_add_date h4 {

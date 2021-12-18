@@ -8,7 +8,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use("/public", express.static(__dirname + "/public"));
 
-app.use("/", login);
+// app.use("/", login);
 app.use("/date", date_router);
 app.use("/date_calculator", date_calculator_router);
 

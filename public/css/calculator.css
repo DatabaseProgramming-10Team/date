@@ -141,3 +141,33 @@
   color: white;
   font-weight: 600;
 }
+
+/* 출력 */
+.calendar .main .dates .date .res {
+  position: absolute;
+  display: inline-block;
+  width: 100%;
+  height: 15%;
+  margin: auto;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  text-align: center;
+  font-size: 1rem;
+}
+.retry {
+  width: 100%;
+  text-align: center;
+  margin: 30px 0;
+}
+.retry .retry_btn {
+  width: 90px;
+  height: 35px;
+  border-radius: 10px;
+  background-color: #7cabe9;
+
+  font-size: 1rem;
+  color: white;
+  font-weight: 600;
+}

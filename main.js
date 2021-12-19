@@ -4,6 +4,7 @@ const startTemplate = require("./lib/startTemplate");
 const account_router = require("./routes/account_router");
 const date_router = require("./routes/date_router");
 const date_calculator_router = require("./routes/date_calculator_router");
+const friends_router = require("./routes/friends_router");
 const port = 80;
 const bodyParser = require("body-parser");
 var session = require("express-session");
@@ -32,6 +33,7 @@ app.use("/", account_router);
 
 app.use("/date", date_router);
 app.use("/date_calculator", date_calculator_router);
+app.use("/friends", friends_router);
 
 app.use(function (req, res, next) {
   res.status(404).send("Sorry cant find that!");

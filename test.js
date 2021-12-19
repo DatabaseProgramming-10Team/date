@@ -1,128 +1,61 @@
-var http = require("http");
-var server = http.createServer(app);
-var fs = require("fs");
-var url = require("url");
-var qs = require("querystring");
-var template = require("./lib/template.js");
-var path = require("path");
-// var sanitizeHtml = require("sanitize-html");
-var mysql = require("mysql");
-
 var express = require("express");
 var app = express();
+var date_router = require("./routes/date_router");
+var date_calculator_router = require("./routes/date_calculator_router");
+var account_router = require("./routes/account_router");
+var mysql = require("mysql");
+var port = 80;
+var bodyParser = require("body-parser");
+var startTemplate = require("./lib/startTemplate.js");
+var parseurl = require("parseurl");
+var session = require("express-session");
+var FileStore = require("session-file-store")(session);
 
-app.use(express.static(__dirname + "/public"));
+app.use(bodyParser.urlencoded({ extended: true }));
 
-var db = mysql.createConnection({
+app.use("/public", express.static(__dirname + "/public"));
+
+app.use(
+  session({
+    secret: "account info",
+    resave: false,
+    saveUninitialized: true,
+    store: new FileStore(),
+  })
+);
+
+const db = mysql.createConnection({
   host: "localhost",
-  user: "root",
-  password: "",
-  database: "time combi",
+  user: "djeun",
+  password: "password",
+  database: "timecombiDB",
 });
 
 db.connect();
 
-app.get("/date", function (req, res) {
-  var _url = req.url;
-  var queryData = url.parse(_url, true).query;
-  var pathname = url.parse(_url, true).pathname;
-  var list = "";
-  if (queryData.email === undefined) {
-    fs.readdir("./data", function (error, filelist) {
-      var html = template.menu;
-      //+ template.date(list);
-      res.send(html);
-    });
+app.get("/", function (request, response) {
+  if (request.session.email == null) {
+    let html = startTemplate.loginHTML();
+    response.send(html);
   } else {
-    db.query(
-      `SELECT * FROM eventTBL WHERE user_email=? AND start_date <= ? AND end_date >= ?`,
-      [queryData.email, queryData.day, queryData.day],
-      function (error, users) {
-        console.log(users);
-        list = "";
-        for (let i = 0; i < users.length; i++) {
-          if (users[i].isRepeat == 1) {
-          } else {
-            list += users[i];
-          }
-        }
-
-        fs.readdir("./data", function (error, filelist) {
-          var html = template.date(users);
-          res.send(html);
-        });
-      }
-    );
+    response.redirect(`/date`);
   }
 });
 
-app.post("/date/create_process", function (req, res) {
-  var body = "";
-  request.on("data", function (data) {
-    body = body + data;
-  });
-  request.on("end", function () {
-    var ev = qs.parse(body);
-    db.query(
-      `INSERT INTO eventTBL VALUES(?, ?, ?, ? ,? ,?, ?, ?, ?)`,
-      [
-        3,
-        "minyoung@gmail.com",
-        ev.title,
-        ev.start_date,
-        ev.last_date,
-        ev.start_time,
-        ev.last_time,
-        0,
-        ev.color,
-      ],
-      function (error, result) {
-        if (error) {
-          throw error;
-        }
-        response.writeHead(302, { Location: `/?id=${result.insertId}` });
-        response.end();
-      }
-    );
-  });
+app.use("/account", account_router);
+
+app.use("/date", date_router);
+app.use("/date_calculator", date_calculator_router);
+
+app.use(function (req, res, next) {
+  res.status(404).send("Sorry cant find that!");
 });
 
-app.post("/date/update_process", function (req, res) {
-  var body = "";
-  request.on("data", function (data) {
-    body = body + data;
-  });
-  request.on("end", function () {
-    var post = qs.parse(body);
-    db.query(
-      `UPDATE eventTBL SET event_name=? WHERE event_no=?`,
-      [post.title, post.no],
-      function (error, result) {
-        response.writeHead(302, { Location: `/` });
-        response.end();
-      }
-    );
-  });
+app.use(function (err, req, res, next) {
+  console.error(err.stack);
+  res.status(500).send("Something broke!");
 });
 
-app.post("/date/delete_process", function (req, res) {
-  var body = "";
-  request.on("data", function (data) {
-    body = body + data;
-  });
-  request.on("end", function () {
-    var post = qs.parse(body);
-    db.query(
-      `DELETE FROM eventTBL WHERE event_no=?`,
-      [post.no],
-      function (error, result) {
-        response.writeHead(302, { Location: `/` });
-        response.end();
-      }
-    );
-  });
-});
-
-app.listen(80, function () {
-  console.log("실행중");
+app.listen(port, () => {
+  console.log(`start ${port}!`);
 });

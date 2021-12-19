@@ -2,18 +2,21 @@ var express = require("express");
 var router = express.Router();
 var template = require("../lib/template");
 var startTemplate = require("../lib/startTemplate");
-var mysql = require("mysql");
+var mypageTemplate = require("../lib/mypageTemplate");
 var qs = require("querystring");
 var url = require("url");
+const db = require("../lib/db");
 
-const db = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "",
-  database: "timecombiDB",
-});
-
-db.connect();
+var session = require("express-session");
+var FileStore = require("session-file-store")(session);
+router.use(
+  session({
+    secret: "account info",
+    resave: false,
+    saveUninitialized: true,
+    store: new FileStore(),
+  })
+);
 
 router.get("/join", function (request, response) {
   let html = startTemplate.joinHTML();
@@ -28,7 +31,7 @@ router.post("/join_process", function (request, response) {
   let phone = post.phone;
 
   db.query(
-    `INSERT INTO userTBL VALUES ('${email}', '${name}', '${pwd}', '${phone}')`,
+    `INSERT INTO userTBL ()VALUES ('${email}', '${name}', '${pwd}', '${phone}', 'default_profile.png')`,
     function (error, newUser) {
       if (error) {
         console.log(error);
@@ -94,7 +97,7 @@ router.get("/mypage", function (request, response) {
       }
       let html = template.menu(
         "마이페이지",
-        template.mypage(user[0]),
+        mypageTemplate.mypageHTML(user[0]),
         user[0].name
       );
 
@@ -109,10 +112,10 @@ router.post("/mypageUpdate", function (request, response) {
   let email = post.email;
   let pwd = post.pw;
   let phone = post.phone;
-
+  let profile = "dault_profile.png";
   db.query(
     `UPDATE userTBL 
-        SET email = '${email}', name = '${name}', pwd = '${pwd}', phone = '${phone}'
+        SET email = '${email}', name = '${name}', pwd = '${pwd}', phone = '${phone}', profile= '${profile}'
         WHERE email = '${email}'
     `,
     function (error) {
@@ -121,7 +124,7 @@ router.post("/mypageUpdate", function (request, response) {
         let alert = `
             <script>
                 alert('회원정보 수정 실패')
-                location.href="/mypage/${email}"
+                location.href="/mypage"
             </script>
             `;
         response.send(alert);
@@ -130,7 +133,7 @@ router.post("/mypageUpdate", function (request, response) {
       let alert = `
         <script>
             alert('회원정보 수정 완료')
-            location.href="/account/mypage"
+            location.href="/mypage"
         </script>
         `;
       response.send(alert);

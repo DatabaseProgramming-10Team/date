@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const template = require("../lib/template");
+const db = require("../lib/db");
 
 // const mysql = require("mysql");
 // var url = require("url");

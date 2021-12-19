@@ -2,15 +2,7 @@ const express = require("express");
 const router = express.Router();
 const template = require("../lib/template");
 var url = require("url");
-
-const mysql = require("mysql");
-const db = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "",
-  database: "timecombidb",
-  dateStrings: "date",
-});
+const db = require("../lib/db");
 
 router.get("/", function (request, response) {
   db.query("SELECT * from usertbl", function (error, users) {

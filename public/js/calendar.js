@@ -33,12 +33,10 @@ const setDateTime = function (tempDate) {
 var listUpdate = function (value) {
   //선택한 날짜에 따라 일정 변경
   let linkDate = value.toISOString().substring(0, 10).split("-").join("");
-  console.log(linkDate);
   history.pushState(null, null, `/date/${linkDate}`);
   const ajax = new XMLHttpRequest();
   ajax.open("GET", `/date/${linkDate}/schedulelist`, false);
   ajax.send();
-  console.log("ajax임 : " + ajax.response);
   document.querySelector(".schedules").innerHTML = ajax.response;
 };
 listUpdate(tempDate);

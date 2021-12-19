@@ -1,13 +1,35 @@
 const express = require("express");
 const app = express();
+const startTemplate = require("./lib/startTemplate");
+const account_router = require("./routes/account_router");
 const date_router = require("./routes/date_router");
 const date_calculator_router = require("./routes/date_calculator_router");
 const port = 80;
 const bodyParser = require("body-parser");
+var session = require("express-session");
+var FileStore = require("session-file-store")(session);
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use("/public", express.static(__dirname + "/public"));
+app.use(
+  session({
+    secret: "account info",
+    resave: false,
+    saveUninitialized: true,
+    store: new FileStore(),
+  })
+);
 
-// app.use("/", login);
+app.get("/", function (request, response) {
+  if (request.session.email == null) {
+    let html = startTemplate.loginHTML();
+    response.send(html);
+  } else {
+    response.redirect(`/date`);
+  }
+});
+
+app.use("/", account_router);
+
 app.use("/date", date_router);
 app.use("/date_calculator", date_calculator_router);
 

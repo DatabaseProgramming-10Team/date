@@ -13,6 +13,7 @@ header {
   flex-direction: column;
   align-items: center;
   transition: 0.5s;
+  z-index: 5;
 }
 
 /* PC 메뉴바 - logo */
@@ -92,6 +93,7 @@ section .mobile_header {
   height: 45px;
   position: fixed;
   background-color: #7cabe9;
+  z-index: 8;
 }
 
 section .mobile_header .logo {
@@ -131,7 +133,7 @@ section .mobile_header .logo h1 {
     cursor: pointer;
     top: 12px;
     right: 10px;
-    z-index: 1;
+    z-index: 11;
   }
 
   input[id="menu"] + label span {
@@ -159,9 +161,6 @@ section .mobile_header .logo h1 {
 
   input[id="menu"]:checked ~ .background_black {
     display: block;
-  }
-  input[id="menu"]:checked ~ label {
-    z-index: 3;
   }
 
   input[id="menu"]:checked ~ header {

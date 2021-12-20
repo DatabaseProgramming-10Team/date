@@ -5,18 +5,21 @@ var url = require("url");
 const db = require("../lib/db");
 
 router.get("/", function (request, response) {
-  db.query("SELECT * from usertbl", function (error, users) {
-    let html = template.menu(
-      "내 일정",
-      template.date(
-        template.datelist([
-          { color: "color1", dateName: "저녁약속", time: "12:00~13:00" },
-        ])
-      ),
-      "홍길동"
-    );
-    response.send(html);
-  });
+  let email = request.session.email;
+  let date = new Date();
+  let checkDate =
+    date.getFullYear() + "" + (date.getMonth() + 1) + date.getDate();
+  db.query(
+    `SELECT * FROM userTBL WHERE email = '${email}'`,
+    function (error, users) {
+      let html = template.menu(
+        "내 일정",
+        template.date(template.datelist(checkDate)),
+        users[0].name
+      );
+      response.send(html);
+    }
+  );
 });
 
 router.get("/:checkDate", function (request, response) {
@@ -26,14 +29,16 @@ router.get("/:checkDate", function (request, response) {
   var pathname = url.parse(_url, true).pathname;
   var list = [];
   db.query(
-    `select * from eventtbl WHERE start_date=?`,
-    [checkDate],
+    `select * from eventTBL`,
+    //[checkDate],
     function (error, dates) {
       let html = template.menu(
         "내 일정",
         template.date(template.datelist(dates)),
         "홍길동"
       );
+	    console.log("데이터1");
+	    console.log(dates);
       response.send(html);
     }
   );
@@ -46,13 +51,28 @@ router.get("/:checkDate/schedulelist", function (request, response) {
   var pathname = url.parse(_url, true).pathname;
   var list = [];
   db.query(
-    `select * from eventtbl WHERE start_date=?`,
-    [checkDate],
+    `SELECT e.event_no, e.event_name, e.start_date, e.end_date, e.start_time, e.end_time, e.isRepeat, e.color, r.re_day FROM eventTBL as e LEFT JOIN repeatEventTBL as r ON e.event_no = r.event_no WHERE (start_date <= '${checkDate}' and end_date >= '${checkDate}') and user_email = '${request.session.email}';`,
     function (error, dates) {
-      let html = template.datelist(dates);
+	    for(let i = 0; i < dates.length; i++){
+                        if(dates[i].isRepeat == 1){
+                                let checkDay = new Date(
+                                        checkDate.slice(0, 4),
+                                        parseInt(checkDate.slice(4, 6)) - 1,
+                                        checkDate.slice(6, 8)
+                                ).getDay()
+                                      let s = dates[i].re_day.split(',');
+                                      for(let j = 0; j < s.length; j++){
+					     if(s[j]*1 == checkDay){
+                                                     list.push(dates[i]);
+					     }
+                                      }
+                        }else{
+                                list.push(dates[i]);
+                        }
+                 }
+      let html = template.datelist(list);
       response.send(html);
-    }
-  );
+    });
 });
 
 router.post("/create_process", function (request, response) {
@@ -87,7 +107,7 @@ router.post("/create_process", function (request, response) {
   db.query(
     `INSERT INTO eventTBL(user_email, event_name, start_date, end_date, start_time, end_time, isRepeat, color) VALUES(?, ?, ? ,? ,?, ?, ?, ?)`,
     [
-      "minyoung@gmail.com",
+      request.session.email,
       ev.title,
       ev.start_date,
       ev.last_date,
@@ -121,6 +141,56 @@ router.post("/create_process", function (request, response) {
       response.end();
     }
   );
+});
+
+router.post('/:checkDate/:id/update_process', function(request, response) {
+  var ev = request.body;
+  console.log(ev);
+  var start_time = "";
+  var last_time = "";
+  var isRepeat = 0;
+  var repeat = "";
+
+  if ("종일" in ev) {
+    start_time = "00:00";
+    last_time = "24:00";
+  } else {
+    start_time = ev.start_time;
+    last_time = ev.last_time;
+  }
+
+  if ("월" in ev) repeat += "0,";
+  if ("화" in ev) repeat += "1,";
+  if ("수" in ev) repeat += "2,";
+  if ("목" in ev) repeat += "3,";
+  if ("금" in ev) repeat += "4,";
+  if ("토" in ev) repeat += "5,";
+  if ("일" in ev) repeat += "6,";
+  repeat = repeat.slice(0, -1);
+	isRepeat = 1;
+
+	console.log(request.body.id*1);
+
+        db.query(`UPDATE eventTBL SET event_name=?, start_date=?, end_date=?, start_time=?, end_time=?, isRepeat=?, color=? WHERE event_no=?`,
+                [ev.title, ev.start_date, ev.last_date, start_time, last_time, isRepeat, ev.color, request.body.id*1], function (error, result) {
+                if (error) { throw error; }
+                        if (isRepeat == 1) {
+                                db.query(`UPDATE repeatEventTBL SET re_day=? WHERE event_no=?`, [repeat, parseInt(request.body.id)],
+                                function (error, result) {
+                                        if (error) {throw error;}
+                                });
+                        }else{
+                                db.query(`SELECT EXISTS (SELECT * FROM repeatEventTBL WHERE event_no=?) as isHava;`,[parseInt(request.body.id)], function (error, results, fields) {
+                                        if (results == 1){
+                                                db.query(`DELETE FROM repeatEventTBL WHERE event_no=?`, [parseInt(request.body.id)], function (error, result) {
+                                                        if (error) { throw error; }
+                                                });
+                                        }
+                                });
+                        }
+                });
+	response.writeHead(302, { Location: `/date` });
+      response.end();
 });
 
 router.post("/delete_process", function (request, response) {
